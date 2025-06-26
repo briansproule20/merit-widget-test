@@ -199,7 +199,7 @@ export function GitActivityWidgetSimple() {
               </Button>
             </div>
             <p className="text-sm text-gray-400">
-              Try: <code className="bg-black border border-gray-700 px-2 py-1 rounded text-xs text-teal-300">briansproule20</code>, <code className="bg-black border border-gray-700 px-2 py-1 rounded text-xs text-teal-300">facebook/react</code>, or <code className="bg-black border border-gray-700 px-2 py-1 rounded text-xs text-teal-300">vercel/next.js</code>
+              Try: <code className="bg-black border border-gray-700 px-2 py-1 rounded text-xs text-teal-300">briansproule20</code>
             </p>
           </div>
         </form>
@@ -207,19 +207,13 @@ export function GitActivityWidgetSimple() {
         {/* Quick Examples */}
         <div className="flex flex-wrap gap-2">
           <span className="text-sm text-gray-400">Quick examples:</span>
-          {["briansproule20", "vercel/next.js", "facebook/react"].map((example) => (
+          {["briansproule20", "sragss", "rsproule"].map((example) => (
             <Button
               key={example}
               variant="outline"
               size="sm"
               onClick={() => {
                 setInput(example);
-                // Auto-analyze popular examples
-                if (example !== "briansproule20") {
-                  setTimeout(() => {
-                    fetchRepoData();
-                  }, 100);
-                }
               }}
               className="border-gray-700 text-gray-300 hover:bg-gray-800 hover:border-teal-500 hover:text-teal-300 bg-black"
             >

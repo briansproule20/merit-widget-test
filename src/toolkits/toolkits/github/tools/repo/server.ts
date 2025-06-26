@@ -14,7 +14,6 @@ export const githubRepoInfoToolConfigServer = (
     callback: async ({ owner, name }) => {
       const [
         { data: repo },
-        commits,
         totalCommits,
         totalPrs,
         { data: ownerData },
@@ -23,7 +22,6 @@ export const githubRepoInfoToolConfigServer = (
           owner,
           repo: name,
         }),
-        getAllCommits(octokit, owner, name),
         getTotalCommits(octokit, owner, name),
         getTotalPrs(octokit, `repo:${owner}/${name}`),
         octokit.rest.users.getByUsername({
@@ -35,14 +33,23 @@ export const githubRepoInfoToolConfigServer = (
         throw new Error("Repository not found");
       }
 
+      // Get recent commits (last 100 commits for faster performance)
+      const { data: recentCommits } = await octokit.rest.repos.listCommits({
+        owner,
+        repo: name,
+        per_page: 100,
+      });
+
       const numBuckets = 96;
       const now = new Date();
-      const startDate = new Date(repo.created_at);
+      // Use a more reasonable time range (last 6 months instead of full repo history)
+      const sixMonthsAgo = new Date(now.getTime() - (6 * 30 * 24 * 60 * 60 * 1000));
+      const startDate = new Date(Math.max(sixMonthsAgo.getTime(), new Date(repo.created_at).getTime()));
       const totalTime = now.getTime() - startDate.getTime();
       const bucketSize = totalTime / numBuckets;
       const buckets = Array.from({ length: numBuckets }, () => 0);
 
-      commits.forEach((commit) => {
+      recentCommits.forEach((commit) => {
         if (!commit.commit?.author?.date) return;
 
         const commitDate = new Date(commit.commit.author.date);
@@ -54,7 +61,8 @@ export const githubRepoInfoToolConfigServer = (
         }
       });
 
-      const contributorCounts = commits
+      // Get top contributors from recent commits only (much faster)
+      const contributorCounts = recentCommits
         .map((commit) => commit.author?.login)
         .filter((login): login is string => login !== null)
         .reduce(
@@ -73,8 +81,9 @@ export const githubRepoInfoToolConfigServer = (
           commits,
         }));
 
+      // Simplified PR count lookup - limit to top 3 contributors for speed
       const topContributorsWithPrs = await Promise.all(
-        topContributors.map(async (contributor) => {
+        topContributors.slice(0, 3).map(async (contributor) => {
           const prs = await getTotalPrs(
             octokit,
             `repo:${owner}/${name} author:${contributor.login}`,
@@ -85,6 +94,14 @@ export const githubRepoInfoToolConfigServer = (
           };
         }),
       );
+
+      // Add remaining contributors without PR data
+      const remainingContributors = topContributors.slice(3).map(contributor => ({
+        ...contributor,
+        prs: 0,
+      }));
+
+      const allTopContributors = [...topContributorsWithPrs, ...remainingContributors];
 
       return {
         repo: {
@@ -113,7 +130,7 @@ export const githubRepoInfoToolConfigServer = (
           ).toISOString(),
           count,
         })),
-        topContributors: topContributorsWithPrs,
+        topContributors: allTopContributors,
       };
     },
     message:

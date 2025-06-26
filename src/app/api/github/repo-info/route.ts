@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
         // Get user's public repositories
         const { data: repos } = await octokit.rest.repos.listForUser({
           username: owner,
-          type: 'public',
+          type: 'owner',
           sort: 'updated',
           per_page: 100,
         });
@@ -55,20 +55,28 @@ export async function POST(request: NextRequest) {
           .filter(repo => !repo.fork) // Exclude forks
           .sort((a, b) => {
             // First sort by stars (descending)
-            if (b.stargazers_count !== a.stargazers_count) {
-              return b.stargazers_count - a.stargazers_count;
+            const aStars = a.stargazers_count || 0;
+            const bStars = b.stargazers_count || 0;
+            if (bStars !== aStars) {
+              return bStars - aStars;
             }
             // If stars are equal, sort by recent activity
-            return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+            const aUpdated = a.updated_at ? new Date(a.updated_at).getTime() : 0;
+            const bUpdated = b.updated_at ? new Date(b.updated_at).getTime() : 0;
+            return bUpdated - aUpdated;
           })[0];
 
         if (!bestRepo) {
           // If no non-fork repos, take the most recently updated one
-          const mostRecentRepo = repos.sort((a, b) => 
-            new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-          )[0];
+          const mostRecentRepo = repos.sort((a, b) => {
+            const aUpdated = a.updated_at ? new Date(a.updated_at).getTime() : 0;
+            const bUpdated = b.updated_at ? new Date(b.updated_at).getTime() : 0;
+            return bUpdated - aUpdated;
+          })[0];
           
-          name = mostRecentRepo.name;
+          if (mostRecentRepo) {
+            name = mostRecentRepo.name;
+          }
         } else {
           name = bestRepo.name;
         }
@@ -107,7 +115,7 @@ export async function POST(request: NextRequest) {
       // Handle specific GitHub API errors
       if (error.message.includes("Not Found")) {
         return NextResponse.json(
-          { error: "Repository not found" },
+          { error: "Repository not found or is private. Please check the repository name and ensure it's publicly accessible." },
           { status: 404 }
         );
       }
@@ -116,6 +124,13 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           { error: "GitHub API rate limit exceeded. Please try again later." },
           { status: 429 }
+        );
+      }
+
+      if (error.message.includes("Forbidden")) {
+        return NextResponse.json(
+          { error: "Access denied. The repository may be private or require special permissions." },
+          { status: 403 }
         );
       }
     }
