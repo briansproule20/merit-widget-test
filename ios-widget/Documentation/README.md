@@ -2,6 +2,17 @@
 
 A beautifully designed iOS widget that displays GitHub repository activity with Merit Systems branding. Features smooth activity curves that match the web version exactly.
 
+## Widget Screenshots
+
+### Small Widget (2x2)
+![Small Widget](https://github.com/user-attachments/assets/small-widget-preview.png)
+
+### Medium Widget (4x2)
+![Medium Widget](https://github.com/user-attachments/assets/medium-widget-preview.png)
+
+### Large Widget (4x4)
+![Large Widget](https://github.com/user-attachments/assets/large-widget-preview.png)
+
 ## Features
 
 - **Three Widget Sizes**: Small (2x2), Medium (4x2), and Large (4x4)
