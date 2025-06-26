@@ -1,294 +1,122 @@
-# [Toolkit.dev](https://toolkit.dev)
+# Merit Systems iOS Git Activity Widget
 
-![Banner Image](/banner.png)
+A beautifully designed iOS widget that displays GitHub repository activity with Merit Systems branding. Features smooth activity curves that match the web version exactly.
 
-An extensible AI chat application with Generative UI built for the **T3 Cloneathon** using the [T3 Stack](https://create.t3.gg/). Toolkit.dev features a powerful toolkit system that allow users to toggle sets of AI tools to interact with external services, search the web, manage files, and much more.
+## Widget Screenshots
 
-Every Toolkit includes customizable UI components, enabling rich, interactive, and visually engaging displays for all tool outputs and interactions.
+### Small Widget (2x2)
+![Small Widget](https://github.com/user-attachments/assets/small-widget-preview.png)
 
-## Table of Contents
+### Medium Widget (4x2)
+![Medium Widget](https://github.com/user-attachments/assets/medium-widget-preview.png)
 
-- [Features](#features)
-  - [Extensible Toolkit System](#extensible-toolkit-system)
-    - [Web Search & Research](#web-search--research)
-    - [Development & Code](#development--code)
-    - [Productivity & Knowledge](#productivity--knowledge)
-    - [Media & Content](#media--content)
-  - [Multiple LLM Providers](#multiple-llm-providers)
-  - [Flexible Authentication](#flexible-authentication)
-  - [Modern UI/UX](#modern-uiux)
-  - [Security & Type Safety](#security--type-safety)
-- [Built With the T3 Stack](#built-with-the-t3-stack)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [1. Clone the Repository](#1-clone-the-repository)
-  - [2. Install Dependencies](#2-install-dependencies)
-  - [3. Environment Configuration](#3-environment-configuration)
-    - [Required Configuration](#required-configuration)
-    - [Choose at least one Authentication Provider](#choose-at-least-one-authentication-provider)
-    - [Choose at least one LLM Provider](#choose-at-least-one-llm-provider)
-    - [Optional Toolkit API Keys](#optional-toolkit-api-keys)
-  - [4. Database Setup](#4-database-setup)
-  - [5. Start Development Server](#5-start-development-server)
-- [Development](#development)
-  - [Adding New Toolkits](#adding-new-toolkits)
-  - [Project Structure](#project-structure)
-  - [Database Commands](#database-commands)
-- [T3 Cloneathon](#t3-cloneathon)
-- [Contributing](#contributing)
-- [License](#license)
+### Large Widget (4x4)
+![Large Widget](https://github.com/user-attachments/assets/large-widget-preview.png)
 
 ## Features
 
-### **Extensible Toolkit System**
-
-Toolkit.dev's toolkit architecture allows AI assistants to use powerful tools:
-
-#### **Web Search & Research**
-
-- **Exa Search** - Neural web search
-
-#### **Development & Code**
-
-- **GitHub API** - Repository management, issue tracking, code search
-- **E2B** - Code execution in secure sandboxes
-
-#### **Productivity & Knowledge**
-
-- **Google Calendar** - Event management and scheduling
-- **Google Drive** - File management and document access
-- **Notion** - Database queries and page management
-- **Memory (Mem0)** - Persistent memory for conversations
-
-### **Multiple LLM Providers**
-
-- **OpenAI**
-- **Anthropic**
-- **XAI**
-- **Google**
-- **Perplexity**
-
-Choose any LLM provider - the app automatically adapts to your configuration!
-
-### **Flexible Authentication**
-
-- **Discord** OAuth
-- **Google** OAuth
-- **GitHub** OAuth
-- **Twitter** OAuth
-- **Notion** OAuth
-
-Just configure one auth provider and you're ready to go!
-
-#### **Media & Content**
-
-- **Image Processing** - Advanced image analysis and manipulation
-
-### **Modern UI/UX**
-
-- Responsive design with Tailwind CSS
-- Real-time chat interface
-- Interactive tool result displays
-- Loading states and progress indicators
-- Dark/light mode support
-
-### **Security & Type Safety**
-
-- Server-side API key management
-- Type-safe API calls with tRPC
-- Zod schema validation
-- Secure authentication flow
-
-## Built With the T3 Stack
-
-Toolkit.dev leverages the full power of the T3 Stack:
-
-- **[Next.js](https://nextjs.org)** - React framework with App Router
-- **[NextAuth.js](https://next-auth.js.org)** - Authentication solution
-- **[Prisma](https://prisma.io)** - Database ORM and migrations
-- **[Tailwind CSS](https://tailwindcss.com)** - Utility-first CSS framework
-- **[tRPC](https://trpc.io)** - End-to-end type-safe APIs
-
-Plus additional tools:
-
-- **[Zod](https://zod.dev)** - Schema validation
-- **[Lucide React](https://lucide.dev)** - Icon library
-- **[AI SDK](https://sdk.vercel.ai)** - AI model integration
-
-## Getting Started
-
-### Prerequisites
-
-- **Node.js** 18+
-- **pnpm** (recommended) or npm
-- **Database** (PostgreSQL recommended)
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/jasonhedman/toolkit.dev.git
-cd open-chat
-```
-
-### 2. Install Dependencies
-
-```bash
-pnpm install
-```
-
-### 3. Environment Configuration
-
-Copy the example environment file:
-
-```bash
-cp .env.example .env
-```
-
-#### Required Configuration
-
-**Database:**
-
-```env
-DATABASE_URL="postgresql://username:password@localhost:5432/Toolkit.dev"
-```
-
-**App Configuration:**
-
-```env
-APP_URL="http://localhost:3000"
-AUTH_SECRET="your-secret-key"  # Generate with: openssl rand -base64 32
-NODE_ENV="development"
-```
-
-#### Choose at least one Authentication Provider
-
-**Option 1: Discord**
-
-```env
-AUTH_DISCORD_ID="your-discord-client-id"
-AUTH_DISCORD_SECRET="your-discord-client-secret"
-```
-
-**Option 2: Google**
-
-```env
-AUTH_GOOGLE_ID="your-google-client-id"
-AUTH_GOOGLE_SECRET="your-google-client-secret"
-```
-
-**Option 3: GitHub**
-
-```env
-AUTH_GITHUB_ID="your-github-client-id"
-AUTH_GITHUB_SECRET="your-github-client-secret"
-```
-
-**Option 4: Twitter**
-
-```env
-AUTH_TWITTER_ID="your-twitter-client-id"
-AUTH_TWITTER_SECRET="your-twitter-client-secret"
-```
-
-**Option 5: Notion**
-
-```env
-AUTH_NOTION_ID="your-notion-client-id"
-AUTH_NOTION_SECRET="your-notion-client-secret"
-```
-
-#### Add an OpenRouter key
-
-```env
-OPENROUTER_API_KEY=""
-```
-
-#### Optional Toolkit API Keys
-
-Enable specific toolkits by adding their API keys:
-
-```env
-# Web Search
-EXA_API_KEY="your-exa-key"
-
-# Memory
-MEM0_API_KEY="your-mem0-key"
-
-# Code Execution
-E2B_API_KEY="your-e2b-key"
-
-# Image Generation
-OPENAI_API_KEY=""
-XAI_API_KEY=""
-```
-
-> **Note:** The app automatically detects which providers and toolkits are configured and adapts the interface accordingly!
-
-### 4. Database Setup
-
-Run database migrations:
-
-```bash
-pnpm db:push
-```
-
-### 5. Start Development Server
-
-```bash
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to see your Toolkit.dev instance!
-
-## Development
-
-### Adding New Toolkits
-
-Toolkit.dev's modular architecture makes it easy to add new toolkits. Check out the [Toolkit Development Guide](./src/toolkits/README.md) for detailed instructions.
-
-### Project Structure
+- **Three Widget Sizes**: Small (2x2), Medium (4x2), and Large (4x4)
+- **Merit Systems Branding**: Consistent cyan color scheme and Merit logo
+- **Smooth Activity Curves**: Mathematical decay algorithm matching web version
+- **Real-time Data**: Updates every 15 minutes
+- **Beautiful Design**: Dark theme with gradient fills and rounded corners
+
+## Widget Sizes
+
+### Small Widget (2x2)
+- Merit logo and commit count
+- Repository name and owner
+- Mini 7-day activity curve
+- Stars count and language tag
+
+### Medium Widget (4x2)
+- Merit branding with logo
+- Repository description
+- 14-day activity curve
+- Comprehensive stats (commits, stars, language)
+
+### Large Widget (4x4)
+- Full Merit Systems branding with LIVE indicator
+- Repository description
+- Stats grid (commits, stars, forks, recent activity)
+- 30-day activity curve
+- Last updated timestamp
+
+## Files Structure
 
 ```
-src/
-├── app/                 # Next.js App Router
-├── components/          # React components
-├── lib/                 # Utility functions
-├── server/             # tRPC server and database
-├── toolkits/           # Extensible toolkit system
-└── env.js              # Environment validation
+ios-widget/
+├── Sources/
+│   ├── MeritGitWidget.swift          # Main widget implementation
+│   ├── GitRepoData.swift             # Data models and sample data
+│   └── ActivityCurveView.swift       # Smooth curve chart component
+├── Preview/
+│   └── WidgetPreview.swift           # macOS preview app
+└── Documentation/
+    ├── README.md                     # This file
+    ├── Setup.md                      # iOS setup instructions
+    └── API.md                        # GitHub API integration guide
 ```
 
-### Database Commands
+## Quick Start
 
-```bash
-# Push schema changes
-pnpm db:push
+1. **Copy Widget Files**: Add the `Sources/` files to your iOS project
+2. **Add Widget Extension**: Create a new Widget Extension target in Xcode
+3. **Configure Bundle IDs**: Set up proper bundle identifiers
+4. **Add GitHub API**: Implement the network service for real data
+5. **Test**: Use the preview app to visualize widgets
 
-# Generate Prisma client
-pnpm db:generate
+## Activity Curve Algorithm
 
-# Open database studio
-pnpm db:studio
+The widget uses the same mathematical model as the web version:
+
+```swift
+private func calculateMomentum() -> [Double] {
+    var momentum: [Double] = []
+    var currentMomentum: Double = 0
+    let decayRate: Double = 0.95
+    
+    for commit in commits {
+        currentMomentum += Double(commit.count)
+        momentum.append(currentMomentum)
+        currentMomentum *= decayRate
+    }
+    
+    return momentum
+}
 ```
 
-## T3 Cloneathon
+## Customization
 
-This project was built for the T3 Cloneathon, showcasing:
+### Colors
+- Primary: Cyan (`Color.cyan`)
+- Background: Black (`Color.black`)
+- Text: White/Gray
+- Accent: Yellow (stars), Red (language), Green (live indicator)
 
-- **Modern T3 Stack** usage with latest patterns
-- **Type Safety** throughout the entire application
-- **Scalable Architecture** with the toolkit system
-- **Developer Experience** with comprehensive tooling
-- **Production Ready** with proper error handling and validation
+### Branding
+- Merit logo: `chevron.left.forwardslash.chevron.right`
+- Brand text: "MERIT SYSTEMS"
+- Live indicator: Green dot + "LIVE" text
 
-## Contributing
+### Data Updates
+- Timeline refresh: Every 15 minutes
+- Sample data included for testing
+- Network service ready for GitHub API integration
 
-Contributions are welcome! Please read our [Toolkit Development Guide](./src/toolkits/README.md) to get started with creating new toolkits.
+## Requirements
+
+- iOS 14.0+
+- Xcode 12.0+
+- WidgetKit framework
+- SwiftUI
+
+## Next Steps
+
+1. See `Setup.md` for detailed iOS project setup
+2. See `API.md` for GitHub API integration
+3. Use `WidgetPreview.swift` for development and testing
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-Built with love for the T3 Cloneathon
+Part of the Merit Systems toolkit.dev project. 
