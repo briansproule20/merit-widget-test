@@ -1,17 +1,19 @@
 # Merit Systems iOS Git Activity Widget
 
-A beautifully designed iOS widget that displays GitHub repository activity with Merit Systems branding. Features smooth activity curves that match the web version exactly.
+An iOS widget that displays GitHub repository activity with Merit Systems branding. Features smooth activity curves that match the web version exactly.
 
 ## Widget Screenshots
 
 ### Small Widget (2x2)
-![Small Widget](https://github.com/user-attachments/assets/small-widget-preview.png)
+<img width="282" alt="Screenshot 2025-06-26 at 7 32 11 PM" src="https://github.com/user-attachments/assets/ed61dfc9-81b8-4a84-b3f5-da5afbc5b6e6" />
 
 ### Medium Widget (4x2)
-![Medium Widget](https://github.com/user-attachments/assets/medium-widget-preview.png)
+<img width="414" alt="Screenshot 2025-06-26 at 7 32 14 PM" src="https://github.com/user-attachments/assets/acd67e29-aa5c-4015-b5b2-7c41bd79eb89" />
+
 
 ### Large Widget (4x4)
-![Large Widget](https://github.com/user-attachments/assets/large-widget-preview.png)
+<img width="375" alt="Screenshot 2025-06-26 at 7 32 24 PM" src="https://github.com/user-attachments/assets/5744c630-6d0b-4fb7-b964-fddcdbeb230c" />
+
 
 ## Features
 
