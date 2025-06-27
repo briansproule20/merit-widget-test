@@ -91,13 +91,13 @@ private func calculateMomentum() -> [Double] {
 ## Customization
 
 ### Colors
-- Primary: Cyan (`Color.cyan`)
+- Primary: Cyan (`Color.cyan`) Or Red
 - Background: Black (`Color.black`)
 - Text: White/Gray
 - Accent: Yellow (stars), Red (language), Green (live indicator)
 
 ### Branding
-- Merit logo: `chevron.left.forwardslash.chevron.right`
+- Merit logo: needs added
 - Brand text: "MERIT SYSTEMS"
 - Live indicator: Green dot + "LIVE" text
 
