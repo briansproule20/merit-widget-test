@@ -21,7 +21,7 @@ An iOS widget that displays GitHub repository activity with Merit Systems brandi
 - **Merit Systems Branding**: Consistent cyan color scheme and Merit logo
 - **Smooth Activity Curves**: Mathematical decay algorithm matching web version
 - **Real-time Data**: Updates every 15 minutes
-- **Beautiful Design**: Dark theme with gradient fills and rounded corners
+- **Design**: Dark theme with gradient fills and rounded corners
 
 ## Widget Sizes
 
